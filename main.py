@@ -1,27 +1,56 @@
 import numpy as np
 import pandas as pd
-
+import finlab_crypto
 import time 
+from finlab_crypto import Strategy
 
-api_key = "GmevgkkgrESSGDmgXqSK0jp5m2zct0qSsxnz1ASJuxX1QpZk8rw9Pc5n98wuEHIk"
-api_secret = "cEyywXGpBaTqUZl7y4poQW6m6NjRqV0nmQjz4I306fwPNFTuwu595r4k9ALwW970"
-
+api_key = "J0gq06B1YlsLVPfkkJ3LAEPHMOwQ74EaUGXiDBEyCiGIkRuDJAZz95RThMFmgyyc"
+api_secret = "9L828724dXaEB6z0V91b5GoodFdmP93qMe9vExUHI4eTv4dx0ozWCl4wSrvavId9"
+finlab_crypto.setup()
 from binance import Client, ThreadedWebsocketManager, ThreadedDepthCacheManager
 
 client = Client(api_key, api_secret)
+ticker = []
+
+above_20MA = 0
+above_50MA = 0
+above_200MA = 0
 
 def list_get_usdt_ticker():
     for p in client.get_all_tickers() :
         if p["symbol"][-4:] == "USDT":
-            print (p["symbol"]) 
+            if ("DOWN" not in  p["symbol"] and 
+               "UPUSDT" not in p["symbol"] and 
+               "AUDUSDT" not in p["symbol"] and 
+               "UPUSDT" not in p["symbol"] and 
+               "EURUSDT" not in p["symbol"] and 
+               "GPBUSDT" not in p["symbol"] and 
+               "BUSDUSDT" not in p["symbol"] and 
+               "TUSDUSDT" not in p["symbol"] and 
+               "BULL" not in p["symbol"] and
+               "USDCUSDT" not in p["symbol"] ):
+                ticker.append(p["symbol"])
 
-def get_all_history(ticker):
-    klines = client.get_historical_klines(ticker , Client.KLINE_INTERVAL_1MINUTE  ,"1 Jan, 2022")
-    #print(klines)
-    df = pd.DataFrame(klines)
-    df.columns = ["Time" , "Open", "Close" , "High","Low","Volume","useless1","useless2","useless3","useless4","useless5","useless6"]
-    df = df.drop (["useless1","useless2","useless3","useless4","useless5","useless6"], axis =1)
-    return df
+list_get_usdt_ticker()
+for p in ticker:
+    ohlcv = finlab_crypto.crawler.get_all_binance(p, '1d')
+    close = ohlcv.close
+    sma20  = close.rolling(20).mean()
+    sma50  = close.rolling(50).mean()
+    sma200 = close.rolling(200).mean()
+    print(p)
+    print(close)
+    print(close[-1])
+    if close[-1] > sma20[-1]:
+        above_20MA += 1
+    if close[-1] > sma50[-1]:
+        above_50MA += 1
+    if close[-1] > sma200[-1]:
+        above_200MA += 1
+    time.sleep(5)
 
-#list_get_usdt_ticker()
-print(get_all_history("DOGEUSDT"))
+
+
+print(above_200MA)
+
+#print(get_all_history("DOGEUSDT"))
