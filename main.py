@@ -40,23 +40,36 @@ for p in ticker:
     date = ohlcv.index    
     if date[-1] != datetime.date.today():
         continue
+        #pass
 
-    total_currency += 1
-    sma20  = close.rolling(20).mean()
-    sma50  = close.rolling(50).mean()
-    sma200 = close.rolling(200).mean()
-    print(p)
-    print(close)
-    print(close[-1])
-    if close[-1] > sma20[-1]:
+    #total_currency += 1
+ 
+    """
+    if (len(ohlcv)) > 200 :
+        if close[-1] > close.rolling(20).mean()[-1]:
+            above_20MA += 1
+        if close[-1] > close.rolling(50).mean()[-1]:
+            above_50MA += 1
+        if close[-1] > close.rolling(200).mean()[-1]:
+            above_200MA += 1
+    else if:
+        if close[-1] > close.rolling(10).mean()[-1]:
+            above_20MA += 1
+        if close[-1] > close.rolling(int(len(ohlcv)/3)).mean()[-1]:
+            above_50MA += 1
+        if close[-1] > close.rolling(int(len(ohlcv)/3*2)).mean()[-1]:
+            above_200MA += 1
+            """
+    if close[-1] > close.rolling(20).mean()[-1]:
         above_20MA += 1
-    if close[-1] > sma50[-1]:
+    if close[-1] > close.rolling(50).mean()[-1]:
         above_50MA += 1
-    if close[-1] > sma200[-1]:
+    if close[-1] > close.rolling(200).mean()[-1]:
         above_200MA += 1
-    time.sleep(5)
+        
 
 total_currency = 0
+print(total_currency)
 print(above_20MA)
 print(above_50MA)
 print(above_200MA)
