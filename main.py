@@ -3,6 +3,7 @@ import pandas as pd
 import finlab_crypto
 import time 
 from finlab_crypto import Strategy
+import datetime
 
 api_key = "J0gq06B1YlsLVPfkkJ3LAEPHMOwQ74EaUGXiDBEyCiGIkRuDJAZz95RThMFmgyyc"
 api_secret = "9L828724dXaEB6z0V91b5GoodFdmP93qMe9vExUHI4eTv4dx0ozWCl4wSrvavId9"
@@ -12,6 +13,7 @@ from binance import Client, ThreadedWebsocketManager, ThreadedDepthCacheManager
 client = Client(api_key, api_secret)
 ticker = []
 
+total_currency = 0
 above_20MA = 0
 above_50MA = 0
 above_200MA = 0
@@ -35,6 +37,11 @@ list_get_usdt_ticker()
 for p in ticker:
     ohlcv = finlab_crypto.crawler.get_all_binance(p, '1d')
     close = ohlcv.close
+    date = ohlcv.index    
+    if date[-1] != datetime.date.today():
+        continue
+
+    total_currency += 1
     sma20  = close.rolling(20).mean()
     sma50  = close.rolling(50).mean()
     sma200 = close.rolling(200).mean()
@@ -49,8 +56,9 @@ for p in ticker:
         above_200MA += 1
     time.sleep(5)
 
-
-
+total_currency = 0
+print(above_20MA)
+print(above_50MA)
 print(above_200MA)
 
 #print(get_all_history("DOGEUSDT"))
