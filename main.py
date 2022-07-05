@@ -16,14 +16,14 @@ finlab_crypto.setup()
 client = Client(api_key, api_secret)
 ticker = []
 match_filter_ticker = []
-total_20MA = 1
-above_20MA = 2
+total_20MA = 0
+above_20MA = 0
 above_20MA_list = []
-total_50MA = 3
-above_50MA = 4
+total_50MA = 0
+above_50MA = 0
 above_50MA_list = []
-total_200MA = 5
-above_200MA = 6
+total_200MA = 0
+above_200MA = 0
 above_200MA_list = []
 match_filter = 0
 
@@ -39,7 +39,8 @@ def list_get_usdt_ticker():
                "BUSDUSDT" not in p["symbol"] and 
                "TUSDUSDT" not in p["symbol"] and 
                "BULL" not in p["symbol"] and
-               "USDCUSDT" not in p["symbol"] ):
+               "USDCUSDT" not in p["symbol"] and
+               "USDPUSDT" not in p["symbol"]):
                 ticker.append(p["symbol"])
 
 
@@ -69,7 +70,8 @@ for p in ticker:
         total_50MA += 1 
         if close[-1] > close.rolling(50).mean()[-1]:
             above_50MA += 1
-    if len(ohlcv) > 2000 :
+            above_50MA_list.append(p)
+    if len(ohlcv) > 200 :
         total_200MA += 1 
         if close[-1] > close.rolling(200).mean()[-1]:
             above_200MA += 1
@@ -125,8 +127,8 @@ if sheet.range('B1').value != datetime.date.today() :
     sheet.range('B12').value = match_filter
 
 
-print(above_200MA_list)
-
+print(above_50MA_list )
+print(above_200MA_list )
 #sheet.range('a:a').api.Insert()
 
 #sheet1 = wb.sheets["sheet1"]
