@@ -93,26 +93,20 @@ for p in ticker:
             match_filter += 1
             match_filter_ticker.append(p)
 
-
-    
-
-
-
 #excel 操作
 
-if not os.path.isfile("crypto_currency.xlsx"):
+if not os.path.isfile( datetime.date.today().year +"_crypto.xlsx" ):
     app=xw.App(visible=False,add_book=False)
     wb=app.books.add()
-    wb.save('crypto_currency.xlsx')
+    wb.save( datetime.date.today().year +"_crypto.xlsx" )
     wb.close()
     #结束进程
     app.quit()
 app=xw.App(visible=True,add_book=False)
 #app.display_alerts=False 
 #app.screen_updating=False  
-wb=app.books.open('crypto_currency.xlsx')
+wb=app.books.open(datetime.date.today().year +"_crypto.xlsx")
 #time.sleep(3)
-
 
 sheet = wb.sheets["工作表1"]
 if sheet.range('B1').value != datetime.date.today() :
@@ -132,6 +126,5 @@ print(above_200MA_list )
 #sheet.range('a:a').api.Insert()
 
 #sheet1 = wb.sheets["sheet1"]
-#sheet1.range('A1').value = 'python知识学堂'
 
 #print(get_all_history("DOGEUSDT"))
