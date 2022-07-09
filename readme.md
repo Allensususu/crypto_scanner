@@ -2,9 +2,14 @@
 Get data on all USDT trading pairs on Binance, filter cryptocurrencies in a simple way, and draw the candlestick chart.
 
 ## How to use?
-You can use the opening price, closing price, high and low price, and volume captured by the program to quickly filter cryptocurrencies.
+Put in binance API first 
+```python 
+api_key = ""
+api_secret = ""
+```
+And You can use the opening price, closing price, high and low price, and volume captured by the program to quickly filter cryptocurrencies.
 
-```python
+```python 
 ohlcv = finlab_crypto.crawler.get_all_binance(ETHUSDT, '1d')
     date = ohlcv.index  
     close = ohlcv.close
