@@ -8,8 +8,8 @@ from binance import Client, ThreadedWebsocketManager, ThreadedDepthCacheManager
 import xlwings as xw
 import os
 
-api_key = "J0gq06B1YlsLVPfkkJ3LAEPHMOwQ74EaUGXiDBEyCiGIkRuDJAZz95RThMFmgyyc"
-api_secret = "9L828724dXaEB6z0V91b5GoodFdmP93qMe9vExUHI4eTv4dx0ozWCl4wSrvavId9"
+api_key = ""
+api_secret = ""
 finlab_crypto.setup()
 
 
@@ -61,7 +61,6 @@ for p in ticker:
         #pass
     #total_currency += 1
 
-    ###計算Excel內容
     if len(ohlcv) > 20 :
         total_20MA += 1 
         if close[-1] > close.rolling(20).mean()[-1]:
@@ -93,14 +92,13 @@ for p in ticker:
             match_filter += 1
             match_filter_ticker.append(p)
 
-#excel 操作
+
 
 if not os.path.isfile( datetime.date.today().year +"_crypto.xlsx" ):
     app=xw.App(visible=False,add_book=False)
     wb=app.books.add()
     wb.save( datetime.date.today().year +"_crypto.xlsx" )
     wb.close()
-    #结束进程
     app.quit()
 app=xw.App(visible=True,add_book=False)
 #app.display_alerts=False 
