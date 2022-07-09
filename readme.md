@@ -12,7 +12,7 @@ ohlcv = finlab_crypto.crawler.get_all_binance(ETHUSDT, '1d')
     high =  ohlcv.high
     vol =  ohlcv.volume 
 ```
-Don't worry, the program will help you get all USDT trading pairs, this is just a demonstration.
+Don't worry, the program will Via ```python list_get_usdt_ticker()``` help you get all USDT trading pairs, this is just a demonstration.
 
 ## Example 
 
