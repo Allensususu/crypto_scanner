@@ -33,6 +33,6 @@ You can use the rolling function to get the 200-day moving average, and a simple
 If all is done, you can call show_klines and it will save it in the match_filter folder for you
 ```python
 show_klines(match_filter_ticker)
-```p
+```
 
 
